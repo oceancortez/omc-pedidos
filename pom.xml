@@ -8,6 +8,7 @@
   	<module>omc-pedidos-ws</module>
   	<module>omc-pedidos-utils</module>
   	<module>omc-pedidos-jpa</module>
+  	<module>omc-pedidos-business</module>
   </modules>
   
   <properties>
@@ -129,6 +130,12 @@
 			<dependency>
 				<groupId>${project.groupId}</groupId>
 				<artifactId>omc-pedidos-utils</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>omc-pedidos-business</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

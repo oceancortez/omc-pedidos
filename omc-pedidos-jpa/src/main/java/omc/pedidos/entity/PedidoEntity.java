@@ -27,7 +27,7 @@ public class PedidoEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "CODCLI")
-	private PedidoEntity pedidoEntity;
+	private ClienteEntity clienteEntity;
 	
 	@ManyToOne
 	@JoinColumn(name = "CODPRD")
@@ -54,17 +54,17 @@ public class PedidoEntity {
 	}
 
 	/**
-	 * @return the pedidoEntity
+	 * @return the clienteEntity
 	 */
-	public PedidoEntity getPedidoEntity() {
-		return pedidoEntity;
+	public ClienteEntity getClienteEntity() {
+		return clienteEntity;
 	}
 
 	/**
-	 * @param pedidoEntity the pedidoEntity to set
+	 * @param clienteEntity the clienteEntity to set
 	 */
-	public void setPedidoEntity(PedidoEntity pedidoEntity) {
-		this.pedidoEntity = pedidoEntity;
+	public void setClienteEntity(ClienteEntity clienteEntity) {
+		this.clienteEntity = clienteEntity;
 	}
 
 	/**
