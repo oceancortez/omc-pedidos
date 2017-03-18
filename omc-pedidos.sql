@@ -52,9 +52,19 @@ DROP TABLE PEDIDO;
 DROP TABLE CLIENTE;
 DROP TABLE PRODUTO;
 
+
+
+-- INSERT INTO `omc`.`cliente` (`NOMCLI`) VALUES ('OXI LTDA');
 select * from omc.cliente;
 
-INSERT INTO `omc`.`cliente` (`NOMCLI`) VALUES ('OXI LTDA');
+
+-- INSERT INTO `OMC`.`PRODUTO`(`NOMPRD`) VALUES ('PRODUTO DO OXI');
+select * from omc.PRODUTO;
+
+-- INSERT INTO `omc`.`pedido` (`CODPED`, `CODCLI`, `CODPRD`) VALUES ('1', '1', '1');
+select * from omc.pedido;
+
+
 
 
 

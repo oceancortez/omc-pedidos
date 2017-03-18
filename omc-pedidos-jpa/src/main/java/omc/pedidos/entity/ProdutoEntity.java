@@ -9,12 +9,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author ocean
  *
  */
-@Entity(name = "produto")
+@Entity
+@Table(name = "produto", schema = "omc")
 public class ProdutoEntity {
 	
 	@Id

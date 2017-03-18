@@ -10,13 +10,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * @author ocean
  *
  */
 
-@Entity(name = "pedido")
+@Entity
+@Table(name = "pedido", schema = "omc")
 public class PedidoEntity {
 	
 	@Id
@@ -31,10 +33,10 @@ public class PedidoEntity {
 	@JoinColumn(name = "CODPRD")
 	private ProdutoEntity produtoEntity;
 	
-	@Column(name = "DATCADCLI")
+	@Column(name = "DATCADPED")
 	private Date dataCadastro;
 	
-	@Column(name = "DATULTALTCLI")
+	@Column(name = "DATULTALTPED")
 	private Date dataUltimaAlteracao;
 
 	/**

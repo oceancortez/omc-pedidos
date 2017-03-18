@@ -7,4 +7,65 @@
   </parent>
   <artifactId>omc-pedidos-ws</artifactId>
   <packaging>war</packaging>
+  
+    <properties>
+		<jdk.version>1.8</jdk.version>
+	</properties>
+  
+  	<dependencies>
+  	
+  		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>omc-pedidos-jpa</artifactId>
+		</dependency>
+  	
+  		<!-- Java EE 6 Spec. -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+  	
+  		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			
+		</dependency>
+  	
+  	</dependencies>
+  	
+  	
+  	 <build>
+
+		<finalName>${project.name}-${project.version}</finalName>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.11.v20150529</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<!-- Para mudar a porta do servidor -->
+					<httpConnector>
+						<port>8088</port>
+					</httpConnector>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+	</build>
 </project>
