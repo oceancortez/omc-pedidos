@@ -25,7 +25,8 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 ALTER TABLE `omc`.`produto` 
-ADD UNIQUE INDEX `NOMPRD_UNIQUE` (`NOMPRD` ASC);
+ADD COLUMN `QTDPRD` INT NOT NULL AFTER `VLRPRD`;
+
 
 
 CREATE TABLE `omc`.`pedido` (
@@ -66,6 +67,14 @@ select * from omc.PRODUTO;
 
 -- INSERT INTO `omc`.`pedido` (`CODPED`, `CODCLI`, `CODPRD`) VALUES ('1', '1', '1');
 select * from omc.pedido;
+
+
+
+
+select * from omc.cliente c
+left join omc.pedido ped  on ped.codcli = c.codcli
+
+where c.codcli = 3;
 
 
 

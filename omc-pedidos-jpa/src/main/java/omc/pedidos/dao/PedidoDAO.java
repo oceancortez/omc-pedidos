@@ -53,7 +53,7 @@ public class PedidoDAO extends GenericDAO<Long, PedidoEntity>{
 			this.getEntityManager().getTransaction().begin();
 			pedidoEntity = this.getEntityManager().merge(pedidoEntity);
 			this.getEntityManager().getTransaction().commit();
-			this.getEntityManager().close();
+			//this.getEntityManager().close();
 			retorno = true;
 			LOGGER.info("Saiu do método pedidoEntity >> pedidoEntity.getCodigo() =".concat(pedidoEntity.getCodigo().toString()));
 		} catch (Exception e) {

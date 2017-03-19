@@ -29,6 +29,9 @@ public class ProdutoEntity {
 	
 	@Column(name = "VLRPRD")
 	private Double valor;	
+	
+	@Column(name = "QTDPRD")
+	private Integer quantidade;
 
 	@Column(name = "DATCADPRD")
 	private Date dataCadastro;
@@ -112,6 +115,20 @@ public class ProdutoEntity {
 	 */
 	public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
 		this.dataUltimaAlteracao = dataUltimaAlteracao;
+	}
+
+	/**
+	 * @return the quantidade
+	 */
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	/**
+	 * @param quantidade the quantidade to set
+	 */
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 	
 	

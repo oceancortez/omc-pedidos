@@ -48,11 +48,11 @@ public class ProdutoDAO extends GenericDAO<Long, ProdutoEntity>{
 	public ProdutoEntity salvarProduto(ProdutoEntity produtoEntity){
 		
 		try {
-			LOGGER.info("Erro no método salvarProduto() >>");
+			LOGGER.info("Entrou no método salvarProduto() >>");
 			this.getEntityManager().getTransaction().begin();
 			produtoEntity = this.getEntityManager().merge(produtoEntity);
 			this.getEntityManager().getTransaction().commit();
-			LOGGER.info("Erro no método salvarProduto  produtoEntity.getCodigo() >>".concat(produtoEntity.getCodigo().toString()));
+			LOGGER.info("Saiu do método salvarProduto  produtoEntity.getCodigo() >>".concat(produtoEntity.getCodigo().toString()));
 		} catch (Exception e) {
 			LOGGER.error("Erro no método salvarProduto() >>"  + e.getMessage());
 		}

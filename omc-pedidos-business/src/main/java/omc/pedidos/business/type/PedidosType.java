@@ -13,13 +13,13 @@ public class PedidosType {
 
 	
 	@XmlElement(name = "pedido")
-	private List<PedidoType> pedidoTypes;
+	private List<PedidoType> pedidoType;
 
 	/**
 	 * @return the pedidoTypes
 	 */
-	public List<PedidoType> getPedidoTypes() {
-		return pedidoTypes;
+	public List<PedidoType> getPedidoType() {
+		return pedidoType;
 	}
 
 	/**
@@ -27,8 +27,8 @@ public class PedidosType {
 	 */	
 	
 
-	public void setPedidoTypes(List<PedidoType> pedidoTypes) {
-		this.pedidoTypes = pedidoTypes;
+	public void setPedidoType(List<PedidoType> pedidoTypes) {
+		this.pedidoType = pedidoTypes;
 	}
 
 }
