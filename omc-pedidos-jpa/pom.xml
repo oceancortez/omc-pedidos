@@ -14,6 +14,11 @@
 	</properties>
 	
 	 <dependencies>
+	 
+	 		<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>omc-pedidos-utils</artifactId>
+			</dependency> 
   
 			  <dependency>
 				<groupId>org.slf4j</groupId>

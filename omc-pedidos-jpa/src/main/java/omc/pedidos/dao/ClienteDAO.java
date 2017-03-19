@@ -18,4 +18,6 @@ public interface ClienteDAO {
 	
 	
 	List<ClienteEntity> listarTodosClientes();
+
+	ClienteEntity salvar(ClienteEntity cliente);
 }

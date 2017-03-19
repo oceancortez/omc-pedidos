@@ -52,6 +52,28 @@ public class ClienteDAOImpl implements ClienteDAO{
 		return clientes;
 	}
 	
+	
+	@Override
+	public ClienteEntity salvar(ClienteEntity cliente) {
+
+		try {
+			LOGGER.info("Entrou no método salvar");
+			//Para forçar o JPA ir buscar os dados no banco 
+			manager = JPAUtil.getEntityManager();
+			
+			manager.getTransaction().begin();
+			cliente = this.manager.merge(cliente);
+			manager.getTransaction().commit();
+			manager.close();	
+
+			LOGGER.info("Saiu do método salvar  cliente.getCodigo = " + cliente.getCodigo());
+		} catch (Exception e) {
+			LOGGER.error("Erro no método salvar() >>"  + e.getMessage());
+		}
+		
+		return cliente;
+	}
+	
 
 
 }

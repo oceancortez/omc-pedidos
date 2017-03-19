@@ -7,18 +7,19 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import omc.pedidos.business.PedidoBusiness;
-import omc.pedidos.business.PedidoBusinessImpl;
+import omc.pedidos.business.service.PedidoBusiness;
+import omc.pedidos.business.service.PedidoBusinessImpl;
 import omc.pedidos.entity.PedidoEntity;
 
 /**
@@ -27,16 +28,16 @@ import omc.pedidos.entity.PedidoEntity;
  */
 @Path("pedido")
 @Stateless
-public class BucarPedidoRestful {
+public class PedidoRestful {
 	
-	private static final Logger LOGGER = Logger.getLogger(BucarPedidoRestful.class);
+	private static final Logger LOGGER = Logger.getLogger(PedidoRestful.class);
 		
 	
 	@EJB
 	private PedidoBusiness pedidoBusiness;
 
 	
-	public  BucarPedidoRestful() {
+	public  PedidoRestful() {
 		// TODO Usar injeção de dependencia
 		pedidoBusiness = new PedidoBusinessImpl();
 	}
@@ -78,8 +79,7 @@ public class BucarPedidoRestful {
 			
 			if(pedido == null){
 				return Response.ok().entity(responseService).build();
-			}	
-			
+			}				
 			responseService = pedido.getProdutoEntity().getNome().toString();	
 			
 			LOGGER.info("Saiu no metodo obterDadosPedidos()[responseService] = ".concat(responseService));
@@ -93,20 +93,15 @@ public class BucarPedidoRestful {
 	}
 	
 	
-	@GET
+	@POST
 	@Path("/cadastrar")
-	public Response cadastrarPedido(){		
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Response cadastrarPedido(final String pedido){		
 		String responseService="";
 		try {
 			LOGGER.info("Entou no metodo cadastrarPedido()");			
-			
-			final PedidoEntity pedido = pedidoBusiness.salvarPedido(new PedidoEntity());
-			
-			if(pedido == null){
-				return Response.ok().entity(responseService).build();
-			}	
-			
-			responseService = pedido.getProdutoEntity().getNome().toString();	
+					
+			responseService = pedidoBusiness.preparaPedido(pedido);
 			
 			LOGGER.info("Saiu no metodo cadastrarPedido()[responseService] = ".concat(responseService));
 			

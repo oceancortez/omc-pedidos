@@ -45,15 +45,22 @@ public class PedidoDAO extends GenericDAO<Long, PedidoEntity>{
 	} 
 	
 	
-	public PedidoEntity salvarPedido(PedidoEntity pedidoEntity){
+	public boolean salvarPedido(PedidoEntity pedidoEntity){
+		boolean retorno = false;
 		
 		try {
+			LOGGER.info("Entou do método salvarPedido");
+			this.getEntityManager().getTransaction().begin();
 			pedidoEntity = this.getEntityManager().merge(pedidoEntity);
+			this.getEntityManager().getTransaction().commit();
+			this.getEntityManager().close();
+			retorno = true;
+			LOGGER.info("Saiu do método pedidoEntity >> pedidoEntity.getCodigo() =".concat(pedidoEntity.getCodigo().toString()));
 		} catch (Exception e) {
 			LOGGER.error("Erro no método salvarPedido() >>"  + e.getMessage());
 		}
 		
-		return pedidoEntity;
+		return retorno;
 	}
 
 

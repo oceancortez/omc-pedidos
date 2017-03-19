@@ -36,6 +36,14 @@ public class ProdutoEntity {
 	@Column(name = "DATULTALTPRD")
 	private Date dataUltimaAlteracao;
 
+	public ProdutoEntity(String nomeProduto) {
+		nome = nomeProduto;
+	}
+
+	public ProdutoEntity() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the codigo
 	 */

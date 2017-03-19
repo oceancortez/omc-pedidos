@@ -34,6 +34,17 @@ public class ClienteEntity {
 	private Date dataUltimaAlteracao;
 	
 	
+	public ClienteEntity() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public ClienteEntity(Long codigoCliente) {
+		codigo = codigoCliente;
+	}
+	
+	
+	
+	
 	/**
 	 * @return the codigo
 	 */

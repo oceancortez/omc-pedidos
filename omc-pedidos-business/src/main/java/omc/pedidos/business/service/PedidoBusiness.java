@@ -1,4 +1,4 @@
-package omc.pedidos.business;
+package omc.pedidos.business.service;
 
 import java.util.List;
 
@@ -19,6 +19,8 @@ public interface PedidoBusiness {
 	PedidoEntity salvarPedido(PedidoEntity pedidoEntity);
 	
 	PedidoEntity buscarPedido(Long codigoPedido);
+
+	String preparaPedido(String pedido);
 	
 
 }
