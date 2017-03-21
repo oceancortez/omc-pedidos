@@ -16,11 +16,9 @@ public interface PedidoBusiness {
 	
 	List<PedidoEntity> buscarTodosPedidos();
 	
-	PedidoEntity salvarPedido(PedidoEntity pedidoEntity);
-	
 	PedidoEntity buscarPedido(Long codigoPedido);
 
-	String preparaPedido(String pedido);
+	String cadastrarPedido(String pedido);
 	
 
 }

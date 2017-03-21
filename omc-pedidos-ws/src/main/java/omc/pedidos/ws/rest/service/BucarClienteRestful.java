@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
 
 import omc.pedidos.dao.ClienteDAO;
-import omc.pedidos.dao.ClienteDAOImpl;
+import omc.pedidos.dao.ClienteDAO;
 import omc.pedidos.entity.ClienteEntity;
 
 /**
@@ -26,14 +27,16 @@ import omc.pedidos.entity.ClienteEntity;
 @Stateless
 public class BucarClienteRestful {
 	
-	private static final Logger LOGGER = Logger.getLogger(ClienteDAOImpl.class);
+	private static final Logger LOGGER = Logger.getLogger(ClienteDAO.class);
 		
 	@EJB
 	private ClienteDAO clienteDAO;
 	
+	private EntityManager entityManager;
+	
 	
 	public BucarClienteRestful(){
-		clienteDAO = new ClienteDAOImpl();
+		clienteDAO = new ClienteDAO(entityManager);
 	}
 	
 	

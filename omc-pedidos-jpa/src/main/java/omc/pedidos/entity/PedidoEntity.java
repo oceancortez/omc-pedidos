@@ -5,6 +5,7 @@ package omc.pedidos.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,11 +26,11 @@ public class PedidoEntity {
     @Column(name = "CODPED")
 	private Long codigo;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CODCLI")
 	private ClienteEntity clienteEntity;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CODPRD")
 	private ProdutoEntity produtoEntity;
 	

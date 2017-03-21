@@ -43,9 +43,14 @@ public class PedidoRestful {
 	}
 	
 	
+	/**
+	 * Buscar todos.
+	 *
+	 * @return the response
+	 */
 	@GET
 	@Path("/buscarTodos")
-	public Response obterDadosPedidos(){		
+	public Response buscarTodos(){		
 		String responseService="";
 		try {
 			LOGGER.info("Entou no metodo obterDadosPedidos()");			
@@ -53,6 +58,8 @@ public class PedidoRestful {
 			List<PedidoEntity> pedidoEntities = pedidoBusiness.buscarTodosPedidos();
 			
 			if(CollectionUtils.isEmpty(pedidoEntities)){
+				responseService = "Não existem pedidos cadastrados!";
+				LOGGER.info("Saiu no metodo obterDadosPedidos()");	
 				return Response.ok().entity(responseService).build();
 			}	
 			
@@ -68,9 +75,15 @@ public class PedidoRestful {
 
 	}
 	
+	/**
+	 * Buscar pedido.
+	 *
+	 * @param codigoPedido the codigo pedido
+	 * @return the response
+	 */
 	@GET
-	@Path("/buscarpedido")
-	public Response obterDadosPedidos(@QueryParam("codigoPedido") Long codigoPedido){		
+	@Path("/buscarPedido")
+	public Response buscarPedido(@QueryParam("codigoPedido") Long codigoPedido){		
 		String responseService="";
 		try {
 			LOGGER.info("Entou no metodo obterDadosPedidos()");			
@@ -93,23 +106,29 @@ public class PedidoRestful {
 	}
 	
 	
+	/**
+	 * Cadastrar pedido.
+	 *
+	 * @param pedido the pedido
+	 * @return the response
+	 */
 	@POST
 	@Path("/cadastrar")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Response cadastrarPedido(final String pedido){		
-		String responseService="";
+		String retorno="";
 		try {
 			LOGGER.info("Entou no metodo cadastrarPedido()");			
 					
-			responseService = pedidoBusiness.preparaPedido(pedido);
+			retorno = pedidoBusiness.cadastrarPedido(pedido);
 			
-			LOGGER.info("Saiu no metodo cadastrarPedido()[responseService] = ".concat(responseService));
+			LOGGER.info("Saiu no metodo cadastrarPedido()[responseService] = ".concat(retorno));
 			
 		} catch (Exception e) {
-			responseService = e.toString();
+			retorno = e.toString();
 			LOGGER.error(e);
 		}		
-		return Response.ok().entity(responseService).build();
+		return Response.ok().entity(retorno).build();
 
 	}
 

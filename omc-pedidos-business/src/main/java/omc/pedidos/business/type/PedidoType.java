@@ -7,14 +7,17 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author ocean
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PedidoType {	
 	
 
@@ -39,6 +42,7 @@ public class PedidoType {
 	/**
 	 * @return the numeroControle
 	 */
+	@JsonProperty
 	public Long getNumeroControle() {
 		return numeroControle;
 	}
@@ -55,6 +59,7 @@ public class PedidoType {
 	/**
 	 * @return the dataCadastro
 	 */
+	@JsonProperty
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
@@ -62,7 +67,7 @@ public class PedidoType {
 	/**
 	 * @param dataCadastro the dataCadastro to set
 	 */	
-
+	
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
@@ -70,6 +75,7 @@ public class PedidoType {
 	/**
 	 * @return the nomeProduto
 	 */
+	@JsonProperty
 	public String getNomeProduto() {
 		return nomeProduto;
 	}
@@ -85,6 +91,7 @@ public class PedidoType {
 	/**
 	 * @return the valor
 	 */
+	@JsonProperty
 	public Double getValor() {
 		return valor;
 	}
@@ -92,8 +99,6 @@ public class PedidoType {
 	/**
 	 * @param valor the valor to set
 	 */
-	
-
 	public void setValor(Double valor) {
 		this.valor = valor;
 	}
@@ -101,6 +106,7 @@ public class PedidoType {
 	/**
 	 * @return the quantidade
 	 */
+	@JsonProperty
 	public Long getQuantidade() {
 		return quantidade;
 	}
@@ -117,6 +123,7 @@ public class PedidoType {
 	/**
 	 * @return the codigoCliente
 	 */
+	@JsonProperty
 	public Long getCodigoCliente() {
 		return codigoCliente;
 	}
@@ -124,8 +131,6 @@ public class PedidoType {
 	/**
 	 * @param codigoCliente the codigoCliente to set
 	 */
-	
-	
 	public void setCodigoCliente(Long codigoCliente) {
 		this.codigoCliente = codigoCliente;
 	}

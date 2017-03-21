@@ -65,8 +65,12 @@ select * from omc.cliente;
 -- INSERT INTO `OMC`.`PRODUTO`(`NOMPRD`) VALUES ('PRODUTO DO OXI');
 select * from omc.PRODUTO;
 
+delete from omc.produto where codprd > 0;
+
 -- INSERT INTO `omc`.`pedido` (`CODPED`, `CODCLI`, `CODPRD`) VALUES ('1', '1', '1');
 select * from omc.pedido;
+
+delete from omc.pedido where codped > 0;
 
 
 
