@@ -3,15 +3,19 @@
  */
 package omc.pedidos.business.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import omc.pedidos.business.type.PedidoType;
 import omc.pedidos.business.type.PedidosType;
 import omc.pedidos.dao.ClienteDAO;
 import omc.pedidos.dao.ClienteDAO;
@@ -35,7 +39,7 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 	private PedidoDAO pedidoDAO;
 
 	private ClienteDAO clienteDAO;
-
+	
 	private ProdutoDAO produtoDAO;
 
 	private EntityManager entityManager;
@@ -51,12 +55,8 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 		produtoDAO = new ProdutoDAO(entityManager);
 	}
 
-	/* (non-Javadoc)
-	 * @see omc.pedidos.business.service.PedidoBusiness#buscarTodosPedidos()
-	 */
 	@Override
 	public List<PedidoEntity> buscarTodosPedidos() {
-
 		return pedidoDAO.findAll();
 	}
 
@@ -97,7 +97,7 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 		
 		PedidosType pedidosType = (PedidosType) ConvertUtils.convertJsonToObject(pedido, new PedidosType());
 		
-		 retornoFinal = isArquivo(pedidosType);
+		 retornoFinal = isArquivoValido(pedidosType);
 		 if(StringUtils.isNotBlank(retornoFinal)){
 			 return retornoFinal;
 		 }
@@ -121,7 +121,7 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 		PedidosType pedidosType = (PedidosType) ConvertUtils.parseXmlToObject(pedido, new PedidosType());
 		if (pedidosType != null) {
 
-			retornoFinal = isArquivo(pedidosType);
+			retornoFinal = isArquivoValido(pedidosType);
 			if (StringUtils.isNotEmpty(retornoFinal)) {
 				return retornoFinal;
 			}
@@ -139,24 +139,22 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 	 * @param pedidosType the pedidos type
 	 * @return the string
 	 */
-	private String salvarPedido(String retornoFinal, PedidosType pedidosType) {
-		
+	private String salvarPedido(String retornoFinal, PedidosType pedidosType) {		
 			
 		for (int i = 0; i < pedidosType.getPedidoType().size(); i++) {
 
 			PedidoEntity pedidoEntity = new PedidoEntity();
 			ProdutoEntity produtoEntity = new ProdutoEntity();
-			ClienteEntity clienteEntity = new ClienteEntity();
-			
+			ClienteEntity clienteEntity = new ClienteEntity();			
 			
 			clienteEntity = clienteDAO.getById(pedidosType.getPedidoType().get(i).getCodigoCliente());			
 			pedidoEntity.setClienteEntity(clienteEntity);
 
 			produtoEntity.setNome(pedidosType.getPedidoType().get(i).getNomeProduto());
 			produtoEntity.setQuantidade(pedidosType.getPedidoType().get(i).getQuantidade().intValue());
-			produtoEntity.setValor(pedidosType.getPedidoType().get(i).getValor());
-			
+			produtoEntity.setValor(pedidosType.getPedidoType().get(i).getValor());			
 			aplicarRegraDescontoValor(produtoEntity);
+			
 			produtoEntity = produtoDAO.salvarProduto(produtoEntity);
 			pedidoEntity.setProdutoEntity(produtoEntity);
 
@@ -166,18 +164,13 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 			} else {
 				pedidoEntity.setDataCadastro(pedidosType.getPedidoType().get(i).getDataCadastro());
 			}
-
 			boolean isPedidoSalvo = pedidoDAO.salvarPedido(pedidoEntity);
-			if (isPedidoSalvo) {
-				
+			if (isPedidoSalvo) {				
 				retornoFinal = "Pedido salvo com sucesso!";
 			} else {
-				retornoFinal = "Erro ao salvar o pedido de numero = "
-						.concat(pedidoEntity.getCodigo().toString());
+				retornoFinal = "Erro ao salvar o pedido de numero = ".concat(pedidoEntity.getCodigo().toString());
 			}
-
-		}
-		
+		}		
 		pedidoDAO.getEntityManager().close();
 		return retornoFinal;
 	}
@@ -206,14 +199,20 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 	 * @param pedidosType the pedidos type
 	 * @return the string
 	 */
-	private String isArquivo(PedidosType pedidosType) {
+	private String isArquivoValido(PedidosType pedidosType) {
 		String retorno = "";
 		if (pedidosType.getPedidoType().size() > 9) {
 			return "Tamanho de arquivo inválido";
 		}
+		List<PedidoType> expurgoPedidos = new ArrayList<>();
 
 		for (int i = 0; i < pedidosType.getPedidoType().size(); i++) {
-
+			
+			PedidoEntity pedidoEntityBase = pedidoDAO.getById(pedidosType.getPedidoType().get(i).getNumeroControle());
+			if(pedidoEntityBase != null){
+				expurgoPedidos.add(pedidosType.getPedidoType().get(i));
+			}
+			
 			if (pedidosType.getPedidoType().get(i).getNumeroControle() == null) {
 				return "NumeroControle não pode ser nulo";
 			}
@@ -234,32 +233,15 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 				pedidosType.getPedidoType().get(i).setQuantidade(1l);
 			}
 		}
-
+		//Remove da lista pedidosType.getPedidoType() os pedidos da lista expurgoPedidos 
+		@SuppressWarnings("unchecked")
+		Collection<PedidoType> subtract = CollectionUtils.subtract(pedidosType.getPedidoType(), expurgoPedidos);		
+		pedidosType.setPedidoType(new ArrayList<>(subtract));
+		
+			if(pedidosType.getPedidoType().isEmpty()){
+				return "Não houveram pedidos válidos para serem cadastrados";
+			}
+			
 		return retorno;
 	}
-
-	private boolean isPedidoValido(String pedido) {
-
-		LOGGER.info("Entou no metodo isPedidoValido com [pedido = ".concat(pedido).concat("]"));
-
-		if (StringUtils.isNotEmpty(pedido)) {
-			if (pedido.contains("<?xml")) {
-				LOGGER.info("Pedido do tipo XML");
-
-				PedidosType pedidosType = (PedidosType) ConvertUtils.parseXmlToObject(pedido, PedidosType.class);
-				if (pedidosType != null) {
-
-				}
-
-			} else {
-				LOGGER.info("Pedido do tipo JSON");
-
-			}
-		}
-
-		LOGGER.info("Saiu no metodo isPedidoValido com [pedido = ".concat(pedido).concat("]"));
-
-		return false;
-	}
-
 }

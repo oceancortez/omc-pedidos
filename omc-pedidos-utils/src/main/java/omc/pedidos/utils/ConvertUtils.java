@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
@@ -20,26 +21,20 @@ import org.xml.sax.InputSource;
 
 public class ConvertUtils {
 
-	// private static final Logger LOGGER = Logger.getLogger(ParseUtils.class);
+	 private static final Logger LOGGER = Logger.getLogger(ConvertUtils.class);
 
 	@SuppressWarnings("unchecked")
 	public static Object parseXmlToObject(String xml, Object object) {
 
 		try {
-
 			JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
-
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
 			object = jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(xml)));
-
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Erro no metodo [parseXmlToObject]".concat(e.getMessage()));
 		}
-
 		return object;
-
 	}
 
 	private static Document convertStringToDocument(String xmlStr) {
@@ -50,30 +45,25 @@ public class ConvertUtils {
 			Document doc = builder.parse(new InputSource(new StringReader(xmlStr)));
 			return doc;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Erro no metodo [convertStringToDocument]".concat(e.getMessage()));
 		}
 		return null;
 	}
 
 	public static Object convertJsonToObject(final String json, Object object) {
 		Object obj = null;
-
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			obj = mapper.readValue(json, object.getClass());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Erro no metodo [convertJsonToObject]".concat(e.getMessage()));
 		}
 		return obj;
 	}
 
 	public static Object convertJsonNodeToObject(final String json, Object object) {
-
-		ObjectMapper mapper = new ObjectMapper();
-		// mapper.configure(DeserializationConfig.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY,
-		// true);
-
+			ObjectMapper mapper = new ObjectMapper();
 		try {
 			object = mapper.readValue(json, object.getClass());
 
@@ -85,7 +75,7 @@ public class ConvertUtils {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Erro no metodo [convertJsonNodeToObject]".concat(e.getMessage()));
 		}
 		return object;
 	}

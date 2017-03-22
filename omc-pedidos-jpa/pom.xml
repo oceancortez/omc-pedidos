@@ -20,11 +20,7 @@
 				<artifactId>omc-pedidos-utils</artifactId>
 			</dependency> 
   
-			  <dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>			
-			 </dependency>
-
+			
 				<!-- COMMONS LANG3 -->
 				<dependency>
 					<groupId>org.apache.commons</groupId>
