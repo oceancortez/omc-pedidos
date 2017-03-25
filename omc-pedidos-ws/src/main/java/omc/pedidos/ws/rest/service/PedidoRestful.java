@@ -5,8 +5,7 @@ package omc.pedidos.ws.rest.service;
 
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,28 +17,24 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.util.CollectionUtils;
 
-import omc.pedidos.business.service.PedidoBusiness;
-import omc.pedidos.business.service.PedidoBusinessImpl;
 import omc.pedidos.entity.PedidoEntity;
+import omc.pedidos.ws.rest.facade.PedidoFacade;
 
 /**
  * @author ocean
  *
  */
 @Path("pedido")
-@Stateless
 public class PedidoRestful {
 	
 	private static final Logger LOGGER = Logger.getLogger(PedidoRestful.class);
 		
 	
-	@EJB
-	private PedidoBusiness pedidoBusiness;
+	private PedidoFacade pedidoFacade;
 
 	
 	public  PedidoRestful() {
-		// TODO Usar injeção de dependencia
-		pedidoBusiness = new PedidoBusinessImpl();
+		pedidoFacade = new PedidoFacade();
 	}
 	
 	
@@ -55,7 +50,7 @@ public class PedidoRestful {
 		try {
 			LOGGER.info("Entou no metodo obterDadosPedidos()");			
 			
-			List<PedidoEntity> pedidoEntities = pedidoBusiness.buscarTodosPedidos();
+			List<PedidoEntity> pedidoEntities = pedidoFacade.buscarTodosPedidos();
 			
 			if(CollectionUtils.isEmpty(pedidoEntities)){
 				responseService = "Não existem pedidos cadastrados!";
@@ -88,7 +83,7 @@ public class PedidoRestful {
 		try {
 			LOGGER.info("Entou no metodo obterDadosPedidos()");			
 			
-			final PedidoEntity pedido = pedidoBusiness.buscarPedido(codigoPedido);
+			final PedidoEntity pedido = pedidoFacade.buscarPedido(codigoPedido);
 			
 			if(pedido == null){
 				return Response.ok().entity(responseService).build();
@@ -120,7 +115,7 @@ public class PedidoRestful {
 		try {
 			LOGGER.info("Entou no metodo cadastrarPedido()");			
 					
-			retorno = pedidoBusiness.cadastrarPedido(pedido);
+			retorno = pedidoFacade.cadastrarPedido(pedido);
 			
 			LOGGER.info("Saiu no metodo cadastrarPedido()[responseService] = ".concat(retorno));
 			

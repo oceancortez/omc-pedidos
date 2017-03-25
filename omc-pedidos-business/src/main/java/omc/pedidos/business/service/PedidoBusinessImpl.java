@@ -18,7 +18,6 @@ import org.apache.log4j.Logger;
 import omc.pedidos.business.type.PedidoType;
 import omc.pedidos.business.type.PedidosType;
 import omc.pedidos.dao.ClienteDAO;
-import omc.pedidos.dao.ClienteDAO;
 import omc.pedidos.dao.PedidoDAO;
 import omc.pedidos.dao.ProdutoDAO;
 import omc.pedidos.entity.ClienteEntity;
@@ -79,6 +78,8 @@ public class PedidoBusinessImpl implements PedidoBusiness {
 			} else {							
 				retornoFinal = cadastrarPedidoJson(pedido);
 			}
+		} else{
+			retornoFinal = "Formato de pedido está inválido!";
 		}
 
 		return retornoFinal;
